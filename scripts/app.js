@@ -16,6 +16,7 @@ function init() {
         $('#sidebar-wrapper').toggleClass('open');
       }
     });
+    getWeather();
   });
 }
 
@@ -52,15 +53,17 @@ function loadImage(conditions) {
   var timeOfDay = getTimeOfDay();
   conditions = conditions.toLowerCase();
 
-  for (var i = 0; i<validConditions.length; i++) {
-    if (conditions === validConditions[i]) {
-      break;
-    } else {
-      conditions = 'cloudy';
-    }
-  }
+  // condition string to append in url, default is cloudy when nothing matches
+  var conditionString = "cloudy";
 
-  imageSRC = imageSRC + conditions + '-' + timeOfDay + '.jpg';
+  validConditions.forEach(function(validCondition){
+    if (conditions === validCondition) {
+      conditionString = conditions;
+    }
+  });
+
+
+  imageSRC = imageSRC + conditionString + '-' + timeOfDay + '.jpg';
   $('#intro').css('background-image', 'url('+ imageSRC + ')');
 }
 
